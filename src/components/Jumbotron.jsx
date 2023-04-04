@@ -5,7 +5,6 @@ import HoldingIphone from "../assets/images/iphone-hand.png";
 export default function Jumbotron() {
   const handleLearnMore = () => {
     const element = document.querySelector(".sound-section");
-    console.log("element", element);
     window.scrollTo({
       top: element?.getBoundingClientRect().top,
       left: 0,
