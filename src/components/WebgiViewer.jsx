@@ -1,4 +1,7 @@
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React, { useCallback, useEffect, useRef } from "react";
+import { scrollAnimation } from "../lib/scroll-animation";
 
 import {
   AssetManagerPlugin,
@@ -11,8 +14,17 @@ import {
   TonemapPlugin,
   ViewerApp,
 } from "webgi";
+
+gsap.registerPlugin(ScrollTrigger);
+
 export default function WebgiViewer() {
   const canvasRef = useRef(null);
+
+  const memoizedScrollAnimation = useCallback((position, target, onUpdate) => {
+    if (position && target && onUpdate) {
+      scrollAnimation(position, target, onUpdate);
+    }
+  }, []);
 
   const setupViewer = useCallback(async () => {
     // Initialize the viewer
@@ -57,6 +69,13 @@ export default function WebgiViewer() {
         needsUpdate = false;
       }
     });
+
+    const onUpdate = () => {
+      needsUpdate = true;
+      viewer.setDirty(); // This is needed to force a redraw.
+    };
+
+    memoizedScrollAnimation(position, target, onUpdate);
   }, []);
 
   useEffect(() => {
