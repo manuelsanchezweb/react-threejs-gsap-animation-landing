@@ -182,6 +182,7 @@ nav .link-styled {
   justify-content: center;
   height: 44px;
   color: #000000cc;
+  text-decoration: none;
 }
 
 .jumbotron-section.wrapper {
